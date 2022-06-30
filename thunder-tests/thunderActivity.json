@@ -18,13 +18,18 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/products/1",
-    "url": "http://localhost:3000/products/1",
-    "method": "GET",
+    "url": "http://localhost:3000/products/",
+    "method": "POST",
     "sortNum": 0,
     "created": "2022-06-29T20:00:46.948Z",
-    "modified": "2022-06-29T21:18:37.830Z",
+    "modified": "2022-06-30T19:53:40.129Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"name\": \"Loki\"\n}",
+      "form": []
+    },
     "tests": []
   }
 ]

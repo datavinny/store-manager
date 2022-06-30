@@ -14,6 +14,7 @@ const getById = async (id) => {
 
 const create = async (name) => {
   const result = await ProductsModels.create(name);
+  console.log(result);
   if (!result) return null;
   return result;
 };
