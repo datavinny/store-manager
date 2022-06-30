@@ -13,4 +13,8 @@ const getById = async (id) => {
   return products[0];
 };
 
-module.exports = { getAll, getById };
+const create = async (name) => {
+
+};
+
+module.exports = { getAll, getById, create };

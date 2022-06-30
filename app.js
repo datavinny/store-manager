@@ -11,10 +11,12 @@ app.get('/', (_request, response) => {
 // você pode registrar suas rotas normalmente, como o exemplo acima
 // você deve usar o arquivo index.js para executar sua aplicação
 
-const productsController = require('./controllers/productsController');
+const ProductsController = require('./controllers/productsController');
 
-app.get('/products', productsController.getAll);
+app.get('/products', ProductsController.getAll);
 
-app.get('/products/:id', productsController.getById);
+app.get('/products/:id', ProductsController.getById);
+
+app.post('/products', ProductsController.create);
 
 module.exports = app;
