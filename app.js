@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 
 const ProductsController = require('./controllers/productsController');
 
-app.get('/products', ProductsController.getAll);
+app.get('/products', ProductsController.productsAuth, ProductsController.getAll);
 app.get('/products/:id', ProductsController.getById);
-app.post('/products', ProductsController.create);
+app.post('/products', ProductsController.productsAuth, ProductsController.create);
 
 module.exports = app;
