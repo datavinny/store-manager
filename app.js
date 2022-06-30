@@ -17,9 +17,12 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 const ProductsController = require('./controllers/productsController');
+const SalesController = require('./controllers/salesController');
+const Auth = require('./middlewares/auth');
 
-app.get('/products', ProductsController.productsAuth, ProductsController.getAll);
+app.get('/products', Auth.name, ProductsController.getAll);
 app.get('/products/:id', ProductsController.getById);
-app.post('/products', ProductsController.productsAuth, ProductsController.create);
+app.post('/products', Auth.name, ProductsController.create);
+app.post('/sales', Auth.salesInfo, SalesController.create);
 
 module.exports = app;

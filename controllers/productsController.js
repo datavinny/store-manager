@@ -34,20 +34,4 @@ const create = async (req, res) => {
   }
 };
 
-const message = {
-  nameIsRequired: { message: '"name" is required' },
-  nameLengthLessThan5: { message: '"name" length must be at least 5 characters long' },
-};
-const productsAuth = (req, res, next) => {
-  try {
-    const { name } = req.body;
-    if (!name) return res.status(400).send(message.nameIsRequired);
-    if (name.length < 5) return res.status(422).send(message.nameLengthLessThan5);
-    next();
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send({ message: 'Erro interno no Servidor' });
-  }
-};
-
-module.exports = { getAll, getById, create, productsAuth };
+module.exports = { getAll, getById, create };
