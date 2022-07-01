@@ -23,6 +23,8 @@ const Auth = require('./middlewares/auth');
 app.get('/products', ProductsController.getAll);
 app.get('/products/:id', ProductsController.getById);
 app.post('/products', Auth.name, ProductsController.create);
+app.get('/sales', SalesController.getAll);
+app.get('/sales/:id', SalesController.getAll);
 app.post('/sales', Auth.salesInfo, SalesController.create);
 
 module.exports = app;

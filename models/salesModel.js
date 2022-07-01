@@ -1,5 +1,35 @@
 const connection = require('../helpers/connection'); 
 
+const getAll = async () => {
+  const [sales] = await connection.execute(
+    'SELECT * FROM StoreManager.sales_products',
+  );
+  return {
+    productId: sales.productId,
+    quantity: sales.quantity,
+  };
+};
+
+const getDateFromSaleId = async (saleId) => {
+  const query = 'SELECT * FROM StoreManager.sales WHERE id LIMIT 1 VALUES (?)';
+  const [sales] = await connection.execute(query, [saleId]);
+  console.log('sales', sales);
+  return sales;
+};
+
+const getById = async (saleId) => {
+  const date = await getDateFromSaleId();
+  console.log('data', date);
+  const query = 'SELECT * FROM StoreManager.sales_products WHERE saleId = ? LIMIT 1';
+  const [sales] = await connection.execute(query, [saleId]);
+  console.log('sales', sales);
+  return {
+    date,
+    productId: sales.productId,
+    quantity: sales.quantity,
+  };
+};
+
 const insertDate = async () => {
   const today = new Date();
   const stringDate1 = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
@@ -21,7 +51,6 @@ const create = async (arrSales) => {
       'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
        [saleId, productId, quantity],
     );
-    console.log('create', result);
     return result;
   });
   return {
@@ -30,4 +59,4 @@ const create = async (arrSales) => {
   };
 };
 
-module.exports = { create };
+module.exports = { getAll, create, getById };

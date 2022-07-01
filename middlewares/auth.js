@@ -64,10 +64,7 @@ const salesInfo = async (req, res, next) => {
   const arrSales = req.body;
   const data = await validateSalesInfo(arrSales);
   const result = data.find((e) => e.message !== 'next');
-  console.log('data', data);
-  console.log('result', result);
   if (result) {
-    console.log('message', result.message);
     return res.status(result.status).send({ message: result.message });
   }
   next();
