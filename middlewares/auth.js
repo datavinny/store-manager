@@ -1,4 +1,4 @@
-const SalesService = require('../services/salesService');
+const ProductsService = require('../services/productsService');
 
 const message = {
   nameIsRequired: { message: '"name" is required' },
@@ -32,7 +32,7 @@ const salesInfo = (req, res, next) => {
             return res.status(400).send(message.quantityIsRequired);
           case (q < 1):
             return res.status(422).send(message.minQuantityIsOne);
-          case (SalesService.getById(p) !== true):
+          case (ProductsService.getById(p) !== true):
             return res.status(404).send(message.productMustExist);
           default:
             next();

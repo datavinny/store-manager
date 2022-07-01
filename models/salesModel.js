@@ -1,18 +1,22 @@
 const connection = require('../helpers/connection'); 
 
-const getById = async (id) => {
-  const query = 'SELECT * FROM StoreManager.sales_products WHERE id = ?';
-  console.log(id);
-  const [products] = await connection.execute(query, [id]);
-  return products[0];
+const getHighestId = async () => {
+  const query = 'SELECT * FROM StoreManager.sales_products ORDER BY sale_id DESC LIMIT 1';
+  const [products] = await connection.execute(query);
+  return products;
 };
 
-const create = async () => {
-  // const query = `INSERT INTO StoreManager.sales_products 
-  //   (sale_id, product_id, quantity) VALUES (?, ?, ?)`;
-  // const [result] = connection.execute(query, [saleId, productId, quantity]);
-  // console.log(result);
-  // return result;
+const create = async (arrSales) => {
+  const highestId = await getHighestId();
+  console.log(highestId);
+  const saleId = highestId + 1;
+  console.log('highestId', highestId);
+  // 
+  const queryCreate = `INSERT INTO StoreManager.sales_products 
+    (sale_id, product_id, quantity) VALUES (?, ?, ?)`;
+  const values = arrSales.forEach(({ productId, quantity }) => [productId, quantity]);
+  const [result] = await connection.execute(queryCreate, [saleId, ...values]);
+  return result;
 };
 
-module.exports = { getById, create };
+module.exports = { create };

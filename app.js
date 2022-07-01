@@ -20,7 +20,7 @@ const ProductsController = require('./controllers/productsController');
 const SalesController = require('./controllers/salesController');
 const Auth = require('./middlewares/auth');
 
-app.get('/products', Auth.name, ProductsController.getAll);
+app.get('/products', ProductsController.getAll);
 app.get('/products/:id', ProductsController.getById);
 app.post('/products', Auth.name, ProductsController.create);
 app.post('/sales', Auth.salesInfo, SalesController.create);
