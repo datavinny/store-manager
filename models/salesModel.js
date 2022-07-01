@@ -1,22 +1,33 @@
 const connection = require('../helpers/connection'); 
 
-const getHighestId = async () => {
-  const query = 'SELECT * FROM StoreManager.sales_products ORDER BY sale_id DESC LIMIT 1';
-  const [products] = await connection.execute(query);
-  return products;
+const insertDate = async () => {
+  const today = new Date();
+  const stringDate1 = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  const stringDate2 = ` ${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+  const date = stringDate1 + stringDate2;
+  const [result] = await connection.execute(
+    'INSERT INTO StoreManager.sales (date) VALUES (?)',
+    [date],
+  );
+  return result.insertId;
 };
 
 const create = async (arrSales) => {
-  const highestId = await getHighestId();
-  console.log(highestId);
-  const saleId = highestId + 1;
-  console.log('highestId', highestId);
-  // 
-  const queryCreate = `INSERT INTO StoreManager.sales_products 
-    (sale_id, product_id, quantity) VALUES (?, ?, ?)`;
-  const values = arrSales.forEach(({ productId, quantity }) => [productId, quantity]);
-  const [result] = await connection.execute(queryCreate, [saleId, ...values]);
-  return result;
+  const saleId = await insertDate();
+  // const values = arrSales.map((element) => element);
+  // const { productId, quantity } = values[0];
+  await arrSales.forEach(async ({ productId, quantity }) => {
+    const [result] = await connection.execute(
+      'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+       [saleId, productId, quantity],
+    );
+    console.log('create', result);
+    return result;
+  });
+  return {
+    id: saleId,
+    itemsSold: arrSales,
+  };
 };
 
 module.exports = { create };

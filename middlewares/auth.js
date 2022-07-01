@@ -1,13 +1,22 @@
 const ProductsService = require('../services/productsService');
 
-const message = {
-  nameIsRequired: { message: '"name" is required' },
-  minNameLengthIsFive: { message: '"name" length must be at least 5 characters long' },
-  productIdIsRequired: { message: '"productId" is required' },
-  quantityIsRequired: { message: '"quantity" is required' },
-  minQuantityIsOne: { message: '"quantity" must be greater than or equal to 1' },
-  productMustExist: { message: 'Product not found' },
+const messageNstatus = {
+  nameIsRequired: { status: 400, message: '"name" is required' },
+  minNameLengthIsFive: { status: 422, message: '"name" length must be at least 5 characters long' },
+  productIdIsRequired: { status: 400, message: '"productId" is required' },
+  quantityIsRequired: { status: 400, message: '"quantity" is required' },
+  minQuantityIsOne: { status: 422, message: '"quantity" must be greater than or equal to 1' },
+  productMustExist: { status: 404, message: 'Product not found' },
 };
+
+// const httpStatus = {
+//   nameIsRequired: 400,
+//   minNameLengthIsFive: 422,
+//   productIdIsRequired: 400,
+//   quantityIsRequired: 400,
+//   minQuantityIsOne: 422,
+//   productMustExist: 404,
+// };
 
 const isValueUndefined = (value) => {
   if (value === Number(0)) return false;
@@ -16,28 +25,52 @@ const isValueUndefined = (value) => {
 };
 
 const name = (req, res, next) => {
-    const { name: reqName } = req.body;
-    if (!reqName) return res.status(400).send(message.nameIsRequired);
-    if (reqName.length < 5) return res.status(422).send(message.minNameLengthIsFive);
+  const { name: reqName } = req.body;
+  if (!reqName) {
+    return res.status(messageNstatus.nameIsRequired.status)
+        .send({ message: messageNstatus.nameIsRequired.message });
+  }
+  if (reqName.length < 5) {
+    return res.status(messageNstatus.minNameLengthIsFive.status)
+      .send({ message: messageNstatus.minNameLengthIsFive.message });
+  }
     next();
 };
 
-const salesInfo = (req, res, next) => {
+const isNotProductValid = async (produtoId) => {
+  const result = await ProductsService.getById(produtoId);
+  if (result === undefined) return true;
+  if (result === null) return true;
+  return false;
+};
+
+const validateSalesInfo = (arrSales) => (
+  Promise.all(arrSales.map(async ({ productId: prodId, quantity: quan }) => {
+    switch (true) {
+      case isValueUndefined(prodId):
+        return messageNstatus.productIdIsRequired;
+      case isValueUndefined(quan):
+        return messageNstatus.quantityIsRequired;
+      case (quan < 1):
+        return messageNstatus.minQuantityIsOne;
+      case await isNotProductValid(prodId):
+        return messageNstatus.productMustExist;
+      default: return { message: 'next' };
+    }
+  }))
+  );
+
+const salesInfo = async (req, res, next) => {
   const arrSales = req.body;
-  arrSales.forEach(({ productId: p, quantity: q }) => {
-        switch (true) {
-          case isValueUndefined(p):
-            return res.status(400).send(message.productIdIsRequired);
-          case isValueUndefined(q):
-            return res.status(400).send(message.quantityIsRequired);
-          case (q < 1):
-            return res.status(422).send(message.minQuantityIsOne);
-          case (ProductsService.getById(p) !== true):
-            return res.status(404).send(message.productMustExist);
-          default:
-            next();
-        }
-    });
+  const data = await validateSalesInfo(arrSales);
+  const result = data.find((e) => e.message !== 'next');
+  console.log('data', data);
+  console.log('result', result);
+  if (result) {
+    console.log('message', result.message);
+    return res.status(result.status).send({ message: result.message });
+  }
+  next();
 };
 
 module.exports = { name, salesInfo };
