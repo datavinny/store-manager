@@ -29,6 +29,7 @@ app.delete('/products/:id', Auth.isProductValid, ProductsController.fnDelete);
 app.get('/sales', SalesController.getAll);
 app.get('/sales/:id', SalesController.getById);
 app.post('/sales', Auth.salesInfo, SalesController.create);
+app.put('/sales/:id', Auth.salesInfo, Auth.isSaleValid, SalesController.att);
 app.delete('/sales/:id', Auth.isSaleValid, SalesController.fnDelete);
 
 module.exports = app;

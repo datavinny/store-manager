@@ -24,4 +24,10 @@ const fnDelete = async (id) => {
   if (!result) return null;
   return result;
 };
-module.exports = { getAll, getById, create, fnDelete };
+
+const att = async (id, arrSales) => {
+  const result = await SalesModels.att(id, arrSales);
+  if (!result) return null;
+  return result;
+};
+module.exports = { getAll, getById, create, fnDelete, att };

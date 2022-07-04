@@ -54,7 +54,7 @@ const create = async (arrSales) => {
   const saleId = await insertDate();
   // const values = arrSales.map((element) => element);
   // const { productId, quantity } = values[0];
-  await arrSales.forEach(async ({ productId, quantity }) => {
+  await arrSales.map(async ({ productId, quantity }) => {
     const [result] = await connection.execute(
       'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
        [saleId, productId, quantity],
@@ -74,4 +74,21 @@ const fnDelete = async (id) => {
   const [sales] = await connection.execute(query2, [id]);
   return { salesProducts, sales };
 };
-module.exports = { getAll, create, getById, fnDelete };
+
+const att = async (id, arrSales) => {
+  const query = (
+    `UPDATE StoreManager.sales_products 
+    SET quantity = ? WHERE sale_id = ? AND product_id = ?`
+  );
+  const result = Promise.all(arrSales.map(async ({ productId, quantity }) => {
+    await connection.execute(
+      query, [quantity, id, productId],
+    );
+    return { productId, quantity };
+  }));
+  return {
+    saleId: id,
+    itemsUpdated: await result,
+  };
+};
+module.exports = { getAll, create, getById, fnDelete, att };

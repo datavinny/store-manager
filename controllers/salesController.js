@@ -45,4 +45,16 @@ const fnDelete = async (req, res) => {
     return res.status(messageNstatus.serverErro.status).json(messageNstatus.serverErro.message);
   }
 };
-module.exports = { getAll, getById, create, fnDelete };
+
+const att = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const arrSales = req.body;
+    const result = await SalesService.att(id, arrSales);
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    return res.status(messageNstatus.serverErro.status).json(messageNstatus.serverErro.message);
+  }
+};
+module.exports = { getAll, getById, create, fnDelete, att };
