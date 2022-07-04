@@ -8,35 +8,89 @@ const ProductsService = require('../../../services/productsService');
 // chai.use(chaiAsPromised);
 
 describe('Products Controller', () => {
+describe('testa caso service retorn null ou undefined', () => {
+    before(() => {
+      sinon.stub(ProductsService, 'getAll')
+        .resolves(undefined);
+      sinon.stub(ProductsService, 'getById')
+        .resolves(undefined);
+      sinon.stub(ProductsService, 'create')
+        .resolves(undefined);
+      sinon.stub(ProductsService, 'att')
+        .resolves(undefined);
+      sinon.stub(ProductsService, 'fnDelete')
+        .resolves(undefined);
+      sinon.stub(ProductsService, 'getBySearch')
+        .resolves(undefined);
+      
+    });
+   it('getAll', async () => {
+    const result = await ProductsController.getAll({}, {})
+   chai.expect(result).to.be.equal(null);
+  })
+
+  it('getById', async () => {
+    const req = { params: { id: 1 } };
+    const result = await ProductsController.getById(req, {})
+   chai.expect(result).to.be.equal(null);
+  })
+
+  it('create', async () => {
+    const req = { body: { name: "Davi" } };
+    const result = await ProductsController.create(req, {})
+   chai.expect(result).to.be.equal(null);
+  })
+
+    it('att', async () => {
+    const req = { body: { name: "Loki" }, params: { id: 1 } };
+    const result = await ProductsController.att(req, {})
+    chai.expect(result).to.be.equal(null);
+  })
+
+  it('fnDelete', async () => {
+    const req = { params: { id: 1 } };
+    const result = await ProductsController.fnDelete(req, {})
+    chai.expect(result).to.be.equal(null);
+  })
+  
+  it('getBySearch', async () => {
+    const req = { query: { q: 'mar' } };
+    const result = await ProductsController.getBySearch(req, {})
+    chai.expect(result).to.be.equal(null);
+  })
+})
+describe('testa caso o service rejeite', () => {
   beforeEach(sinon.restore)
 
-  it('dispara erro caso a ProductsService.getAll dispare', async () => {
-    sinon.stub(ProductsService, 'getAll').rejects();
+  it('dispara erro caso a ProductsController.getAll dispare', async () => {
+    sinon.stub(ProductsController, 'getAll').rejects();
     return chai.expect(ProductsController.getAll({}, {})).to.be.rejected;
   })
 
-  it('dispara erro caso a ProductsService.getById dispare', async () => {
-  sinon.stub(ProductsService, 'getById').rejects();
+  it('dispara erro caso a ProductsController.getById dispare', async () => {
+  sinon.stub(ProductsController, 'getById').rejects();
   return chai.expect(ProductsController.getById({}, {})).to.be.rejected;
   })
 
-  it('dispara erro caso a ProductsService.create dispare', async () => {
-  sinon.stub(ProductsService, 'create').rejects();
+  it('dispara erro caso a ProductsController.create dispare', async () => {
+  sinon.stub(ProductsController, 'create').rejects();
   return chai.expect(ProductsController.create({}, {})).to.be.rejected;
   })
 
-  it('dispara erro caso a ProductsService.att dispare', async () => {
-  sinon.stub(ProductsService, 'att').rejects();
+  it('dispara erro caso a ProductsController.att dispare', async () => {
+  sinon.stub(ProductsController, 'att').rejects();
   return chai.expect(ProductsController.att({}, {})).to.be.rejected;
   })
 
-  it('dispara erro caso a ProductsService.fnDelete dispare', async () => {
-  sinon.stub(ProductsService, 'fnDelete').rejects();
+  it('dispara erro caso a ProductsController.fnDelete dispare', async () => {
+  sinon.stub(ProductsController, 'fnDelete').rejects();
   return chai.expect(ProductsController.fnDelete({}, {})).to.be.rejected;
   })
   
-  it('dispara erro caso a ProductsService.getBySearch dispare', async () => {
-  sinon.stub(ProductsService, 'getBySearch').rejects();
+  it('dispara erro caso a ProductsController.getBySearch dispare', async () => {
+  sinon.stub(ProductsController, 'getBySearch').rejects();
   return chai.expect(ProductsController.getBySearch({}, {})).to.be.rejected;
   })
 })
+})
+
