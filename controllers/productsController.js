@@ -57,4 +57,15 @@ const fnDelete = async (req, res) => {
     return res.status(messageNstatus.serverErro.status).json(messageNstatus.serverErro.message);
   }
 };
-module.exports = { getAll, getById, create, att, fnDelete };
+
+const getBySearch = async (req, res) => {
+  try {
+    const { q } = req.query;
+    const result = await ProductsService.getBySearch(q);
+    return res.status(200).send(result);
+  } catch (error) {
+    console.error(error);
+    return res.status(messageNstatus.serverErro.status).json(messageNstatus.serverErro.message);
+  }
+};
+module.exports = { getAll, getById, create, att, fnDelete, getBySearch };

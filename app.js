@@ -21,6 +21,7 @@ const SalesController = require('./controllers/salesController');
 const Auth = require('./middlewares/auth');
 
 app.get('/products', ProductsController.getAll);
+app.get('/products/search', ProductsController.getBySearch);
 app.get('/products/:id', ProductsController.getById);
 app.post('/products', Auth.name, ProductsController.create);
 app.put('/products/:id', Auth.name, Auth.isProductValid, ProductsController.att);

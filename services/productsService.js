@@ -30,4 +30,9 @@ const fnDelete = async (id) => {
   return result;
 };
 
-module.exports = { getAll, getById, create, att, fnDelete };
+const getBySearch = async (q) => {
+  const result = await ProductsModels.getBySearch(q);
+  if (!result) return null;
+  return result;
+};
+module.exports = { getAll, getById, create, att, fnDelete, getBySearch };

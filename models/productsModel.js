@@ -31,4 +31,15 @@ const fnDelete = async (id) => {
   const [result] = await connection.execute(query, [id]);
   return result;
 };
-module.exports = { getAll, getById, create, att, fnDelete };
+
+const getBySearch = async (q) => {
+  // const data = await getAll();
+  // const foundProducts = data.filter((p) => p.name.includes(q));
+  // return foundProducts;
+  const [products] = await connection.execute(
+    `SELECT * FROM StoreManager.products WHERE name LIKE '%${q}%'`, 
+  );
+  console.log(products);
+  return products;
+};
+module.exports = { getAll, getById, create, att, fnDelete, getBySearch };
