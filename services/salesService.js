@@ -19,4 +19,9 @@ const create = async (arrSales) => {
   return result;
 };
 
-module.exports = { getAll, getById, create };
+const fnDelete = async (id) => {
+  const result = await SalesModels.fnDelete(id);
+  if (!result) return null;
+  return result;
+};
+module.exports = { getAll, getById, create, fnDelete };

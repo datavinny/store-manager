@@ -67,4 +67,11 @@ const create = async (arrSales) => {
   };
 };
 
-module.exports = { getAll, create, getById };
+const fnDelete = async (id) => {
+  const query1 = 'DELETE FROM StoreManager.sales_products WHERE sale_id= ?';
+  const [salesProducts] = await connection.execute(query1, [id]);
+    const query2 = 'DELETE FROM StoreManager.sales WHERE id= ?';
+  const [sales] = await connection.execute(query2, [id]);
+  return { salesProducts, sales };
+};
+module.exports = { getAll, create, getById, fnDelete };
