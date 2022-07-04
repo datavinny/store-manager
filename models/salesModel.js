@@ -1,33 +1,41 @@
 const connection = require('../helpers/connection'); 
 
+const getDateFromSaleId = async (id) => {
+  const query = 'SELECT date FROM StoreManager.sales WHERE id = ?';
+  const [sales] = await connection.execute(query, [id]);
+  return sales[0].date;
+};
+
 const getAll = async () => {
   const [sales] = await connection.execute(
     'SELECT * FROM StoreManager.sales_products',
   );
-  return {
-    productId: sales.productId,
-    quantity: sales.quantity,
-  };
+  const result = Promise.all(sales.map(async (
+    { sale_id: saleId, product_id: productId, quantity }) => {
+    const date = await getDateFromSaleId(saleId);
+    return {
+      saleId,
+      date,
+      productId,
+      quantity,
+    };
+  }));
+  return result;
 };
 
-const getDateFromSaleId = async (saleId) => {
-  const query = 'SELECT * FROM StoreManager.sales WHERE id LIMIT 1 VALUES (?)';
-  const [sales] = await connection.execute(query, [saleId]);
-  console.log('sales', sales);
-  return sales;
-};
-
-const getById = async (saleId) => {
-  const date = await getDateFromSaleId();
-  console.log('data', date);
-  const query = 'SELECT * FROM StoreManager.sales_products WHERE saleId = ? LIMIT 1';
-  const [sales] = await connection.execute(query, [saleId]);
-  console.log('sales', sales);
-  return {
-    date,
-    productId: sales.productId,
-    quantity: sales.quantity,
-  };
+const getById = async (id) => {
+  const query = 'SELECT * FROM StoreManager.sales_products WHERE sale_id = ?';
+  const [sales] = await connection.execute(query, [id]);
+  const result = Promise.all(sales.map(async (
+  { product_id: productId, quantity }) => {
+    const date = await getDateFromSaleId(id);
+    return {
+      date,
+      productId,
+      quantity,
+    };
+  }));
+  return result;
 };
 
 const insertDate = async () => {
