@@ -18,4 +18,10 @@ const create = async (name) => {
   return result;
 };
 
-module.exports = { getAll, getById, create };
+const att = async (id, name) => {
+  const result = await ProductsModels.att(id, name);
+  if (!result) return null;
+  return result;
+};
+
+module.exports = { getAll, getById, create, att };

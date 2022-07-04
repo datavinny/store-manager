@@ -34,4 +34,16 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getById, create };
+const att = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const result = await ProductsService.att(id, name);
+    return res.status(200).send(result);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Erro interno no Servidor' });
+  }
+};
+
+module.exports = { getAll, getById, create, att };

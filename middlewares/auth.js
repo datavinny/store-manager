@@ -1,5 +1,4 @@
 const ProductsService = require('../services/productsService');
-
 const messageNstatus = require('../helpers/messageNstatus');
 
 // const httpStatus = {
@@ -63,4 +62,15 @@ const salesInfo = async (req, res, next) => {
   next();
 };
 
-module.exports = { name, salesInfo };
+const isProductValid = async (req, res, next) => {
+  const { id } = req.params;
+  const result = await ProductsService.getById(id);
+  if (!result) {
+    return res.status(messageNstatus.productMustExist.status).send(
+      { message: messageNstatus.productMustExist.message },
+    );
+  }
+  next();
+};
+
+module.exports = { name, salesInfo, isProductValid };

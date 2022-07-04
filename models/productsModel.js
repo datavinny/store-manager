@@ -20,4 +20,10 @@ const create = async (name) => {
   return { id: result.insertId, name };
 };
 
-module.exports = { getAll, getById, create };
+const att = async (id, name) => {
+  const query = 'REPLACE INTO StoreManager.products (id, name) VALUES (?,?)';
+  const [result] = await connection.execute(query, [id, name]);
+  console.log(await result);
+  return { id, name };
+};
+module.exports = { getAll, getById, create, att };
