@@ -11,17 +11,17 @@ describe('Products Controller', () => {
 describe('testa caso service retorn null ou undefined', () => {
     before(() => {
       sinon.stub(ProductsService, 'getAll')
-        .resolves(undefined);
+        .resolves(null);
       sinon.stub(ProductsService, 'getById')
-        .resolves(undefined);
+        .resolves(null);
       sinon.stub(ProductsService, 'create')
-        .resolves(undefined);
+        .resolves(null);
       sinon.stub(ProductsService, 'att')
-        .resolves(undefined);
+        .resolves(null);
       sinon.stub(ProductsService, 'fnDelete')
-        .resolves(undefined);
+        .resolves(null);
       sinon.stub(ProductsService, 'getBySearch')
-        .resolves(undefined);
+        .resolves(null);
       
     });
    it('getAll', async () => {

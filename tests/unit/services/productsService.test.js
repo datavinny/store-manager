@@ -45,7 +45,6 @@ describe('Products Services', () => {
   })
 })
   describe('quando ocorre erros', () => {
-      beforeEach(sinon.restore);
     before(() => {
       sinon.stub(ProductsModel, 'getAll')
         .resolves(undefined);

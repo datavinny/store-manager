@@ -42,18 +42,17 @@ describe('Sales Controller', () => {
   })
   })
     describe('quando o service não retorna nada', () => {
-      beforeEach(sinon.restore);
     before(() => {
       sinon.stub(SalesService, 'getAll')
-        .resolves(undefined);
+        .resolves(null);
       sinon.stub(SalesService, 'getById')
-        .resolves(undefined);
+        .resolves(null);
       sinon.stub(SalesService, 'create')
-        .resolves(undefined);
+        .resolves(null);
       sinon.stub(SalesService, 'att')
-        .resolves(undefined);
+        .resolves(null);
       sinon.stub(SalesService, 'fnDelete')
-        .resolves(undefined);
+        .resolves(null);
       
     });
   it('getAll', async () => {
