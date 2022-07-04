@@ -39,7 +39,6 @@ const getBySearch = async (q) => {
   const [products] = await connection.execute(
     `SELECT * FROM StoreManager.products WHERE name LIKE '%${q}%'`, 
   );
-  console.log(products);
   return products;
 };
 module.exports = { getAll, getById, create, att, fnDelete, getBySearch };
