@@ -24,6 +24,7 @@ app.get('/products', ProductsController.getAll);
 app.get('/products/:id', ProductsController.getById);
 app.post('/products', Auth.name, ProductsController.create);
 app.put('/products/:id', Auth.name, Auth.isProductValid, ProductsController.att);
+app.delete('/products/:id', Auth.isProductValid, ProductsController.fnDelete);
 
 app.get('/sales', SalesController.getAll);
 app.get('/sales/:id', SalesController.getById);

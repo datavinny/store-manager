@@ -26,4 +26,11 @@ const att = async (id, name) => {
   console.log(await result);
   return { id, name };
 };
-module.exports = { getAll, getById, create, att };
+
+const fnDelete = async (id) => {
+  const query = 'DELETE FROM StoreManager.products WHERE id= ?';
+  const [result] = await connection.execute(query, [id]);
+  console.log(result);
+  return result;
+};
+module.exports = { getAll, getById, create, att, fnDelete };

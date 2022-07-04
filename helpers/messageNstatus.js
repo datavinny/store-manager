@@ -5,6 +5,7 @@ const messageNstatus = {
   quantityIsRequired: { status: 400, message: '"quantity" is required' },
   minQuantityIsOne: { status: 422, message: '"quantity" must be greater than or equal to 1' },
   productMustExist: { status: 404, message: 'Product not found' },
+  serverErro: { status: 500, message: 'Erro interno no Servidor' },
 };
 
 module.exports = messageNstatus;

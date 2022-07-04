@@ -1,4 +1,5 @@
 const ProductsService = require('../services/productsService');
+const messageNstatus = require('../helpers/messageNstatus');
 
 const getAll = async (req, res) => {
   try {
@@ -7,7 +8,7 @@ const getAll = async (req, res) => {
     return res.status(200).send(result);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Erro interno no Servidor' });
+    return res.status(messageNstatus.serverErro.status).json(messageNstatus.serverErro.message);
   }
 };
 
@@ -19,7 +20,7 @@ const getById = async (req, res) => {
     return res.status(200).send(result);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Erro interno no Servidor' });
+    return res.status(messageNstatus.serverErro.status).json(messageNstatus.serverErro.message);
   }
 };
 
@@ -30,7 +31,7 @@ const create = async (req, res) => {
     return res.status(201).send(result);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Erro interno no Servidor' });
+    return res.status(messageNstatus.serverErro.status).json(messageNstatus.serverErro.message);
   }
 };
 
@@ -42,8 +43,18 @@ const att = async (req, res) => {
     return res.status(200).send(result);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Erro interno no Servidor' });
+    return res.status(messageNstatus.serverErro.status).json(messageNstatus.serverErro.message);
   }
 };
 
-module.exports = { getAll, getById, create, att };
+const fnDelete = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await ProductsService.fnDelete(id);
+    return res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    return res.status(messageNstatus.serverErro.status).json(messageNstatus.serverErro.message);
+  }
+};
+module.exports = { getAll, getById, create, att, fnDelete };
