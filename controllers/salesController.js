@@ -5,7 +5,7 @@ const getAll = async (req, res) => {
   try {
     const result = await SalesService.getAll();
     if (!result) return res.status(404).json({ message: 'Sale not found' });
-    return res.status(200).send(result);
+    return res.status(200).json(result);
   } catch (error) {
     console.error(error);
     return res.status(messageNstatus.serverErro.status).json(messageNstatus.serverErro.message);
@@ -17,7 +17,7 @@ const getById = async (req, res) => {
     const { id } = req.params;
     const result = await SalesService.getById(id);
     if (!result) return res.status(404).json({ message: 'Sale not found' });
-    return res.status(200).send(result);
+    return res.status(200).json(result);
   } catch (error) {
     console.error(error);
     return res.status(messageNstatus.serverErro.status).json(messageNstatus.serverErro.message);
@@ -39,7 +39,7 @@ const fnDelete = async (req, res) => {
   try {
     const { id } = req.params;
     await SalesService.fnDelete(id);
-    return res.status(204).send();
+    return res.status(204).json();
   } catch (error) {
     console.error(error);
     return res.status(messageNstatus.serverErro.status).json(messageNstatus.serverErro.message);
