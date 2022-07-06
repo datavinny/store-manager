@@ -1,15 +1,15 @@
 const allProducts = [
   {
-    "id": 1,
-    "name": "Martelo de Thor",
+    id: 1,
+    name: "Martelo de Thor",
   },
   {
-    "id": 2,
-    "name": "Traje de encolhimento",
+    id: 2,
+    name: "Traje de encolhimento",
   },
   {
-    "id": 3,
-    "name": "Escudo do Capitão América",
+    id: 3,
+    name: "Escudo do Capitão América",
   }
 ];
 
@@ -27,10 +27,7 @@ const resGetBySearch = [
 ];
 const reqAtt = { name: "Martelo do Batman" };
 const reqCreate = { name: "Davi" };
-const resCreate = {
-  id: 4,
-  name: "Davi"
-};
+const resCreate = { id: 4, name: "Davi" };
 
 module.exports = {
   resGetAll,

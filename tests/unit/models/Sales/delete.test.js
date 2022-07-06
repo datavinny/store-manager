@@ -6,11 +6,15 @@ const connection = require('../../../../helpers/connection');
 const Mocks = require('../../salesMocks');
 
 describe('Sales - Model', () => {
-  beforeEach(() => sandbox.stub(connection, 'query').resolves(Mocks.allSales))
-  afterEach(() => sandbox.restore())
+  beforeEach(() => {
+    sandbox.stub(connection, 'execute').resolves([[Mocks.allSales]]);
+  })
+  afterEach(() => {
+    sandbox.restore();
+  })
   it('fnDelete', async () => {
-    const id = 1
-    const result = await Sales.fnDelete(id)
-    chai.expect(result).to.be(undefined)
+    const id = 1;
+    const result = await Sales.fnDelete(id);
+    chai.expect(result).to.be.a('object');
   })
 })

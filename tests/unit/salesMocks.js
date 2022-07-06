@@ -17,7 +17,11 @@ const allSales = [
 ];
 
 const resGetAll = [...allSales];
-const resGetById = allSales[0];
+const resGetById = {
+  "sale_id": 1,
+  "productId": 1,
+  "quantity": 5
+};
 const reqCreate = [
   {
     "productId": 1,
@@ -28,6 +32,19 @@ const reqCreate = [
     "quantity": 5
   }
 ];
+const resCreate = {
+  id: 3,
+  itemsSold: [
+    {
+      productId: 1,
+      quantity: 1
+    },
+    {
+      productId: 2,
+      quantity: 5
+    }
+  ]
+};
 const reqAtt = [
   {
     "productId": 1,
@@ -52,9 +69,11 @@ const resAtt = {
   ]
 }
 module.exports = {
+  allSales,
   resGetAll,
   resGetById,
   reqCreate,
+  resCreate,
   reqAtt,
   resAtt
 };

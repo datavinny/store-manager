@@ -9,27 +9,27 @@ const Mocks = require('../../productsMocks');
 describe('Products - Service', () => {
   describe('sem erros no Model', () => {
     beforeEach(() => {
-      sandbox.stub(Model, 'getAll').resolves(Mocks.resGetAll)
+      sandbox.stub(Model, 'getAll').resolves(Mocks.resGetAll);
     })
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
 
     it('getAll', async () => {
-      const result = await Service.getAll()
-      chai.expect(result).to.be.a('array')
+      const result = await Service.getAll();
+      chai.expect(result).to.be.a('array');
     })
 })
   describe('caso haja erros no Model', () => {
     beforeEach(() => {
-      sandbox.stub(Model, 'getAll').rejects();
+      sandbox.stub(Model, 'getAll').resolves([]);
     });
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
     it('getAll', async () => {
-      const result = await Service.getAll()
-      chai.expect(result).to.be.equal(null);
+      const result = await Service.getAll();
+      chai.expect(result.length).to.be.equal(0);
     })
 })
 })

@@ -7,29 +7,30 @@ const Model = require('../../../../models/productsModel');
 const Mocks = require('../../productsMocks');
 
 describe('Products - Service', () => {
-  const id = 1;
   describe('sem erros no Model', () => {
     beforeEach(() => {
-      sandbox.stub(Model, 'getById').resolves(Mocks.resGetById)
+      sandbox.stub(Model, 'getById').resolves(Mocks.resGetById);
     })
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
     
     it('getById', async () => {
+      const id = 0;
       const result = await Service.getById(id)
       chai.expect(result).to.have.a.property('name')
     })
 })
   describe('caso haja erros no Model', () => {
     beforeEach(() => {
-      sandbox.stub(Model, 'getById').rejects();
+      sandbox.stub(Model, 'getById').resolves(null);
     });
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
 
     it('getById', async () => {
+      const id = 0;
       const result = await Service.getById(id)
       chai.expect(result).to.be.equal(null);
     })

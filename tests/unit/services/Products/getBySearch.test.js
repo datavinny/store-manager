@@ -10,10 +10,10 @@ describe('Products - Service', () => {
   const q = 'mar'
   describe('sem erros no Model', () => {
     beforeEach(() => {
-      sandbox.stub(Model, 'getBySearch').resolves(Mocks.resGetBySearch)
+      sandbox.stub(Model, 'getBySearch').resolves(Mocks.resGetBySearch);
     })
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
 
     it('getBySearch', async () => {
@@ -23,11 +23,10 @@ describe('Products - Service', () => {
 })
   describe('caso haja erros no Model', () => {
     beforeEach(() => {
-      sandbox.stub(Model, 'getBySearch')
-        .resolves();
+      sandbox.stub(Model, 'getBySearch').resolves(null);
     });
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
 
     it('getBySearch', async () => {

@@ -4,7 +4,7 @@ const messageNstatus = require('../helpers/messageNstatus');
 const getAll = async (req, res) => {
   try {
     const result = await ProductsService.getAll();
-    if (!result) return res.status(404).json({ message: 'Product not found' });
+    // if (!result) return res.status(404).json({ message: 'Product not found' });
     return res.status(200).json(result);
   } catch (error) {
     console.error(error);

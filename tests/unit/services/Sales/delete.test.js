@@ -7,31 +7,29 @@ const Model = require('../../../../models/salesModel');
 const Mocks = require('../../salesMocks');
 
 describe('Sales - Services', () => {
+  const id = 1
   describe('sem erros no Model', () => {
     beforeEach(() => {
-      sandbox.stub(Model, 'fnDelete').resolves(Mocks.allSales)
+      sandbox.stub(Model, 'fnDelete').resolves(true);
     })
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
 
     it('fnDelete', async () => {
-      const id = 1
-      const result = await Service.fnDelete(id)
-      chai.expect(result).to.be(false)
+      const result = await Service.fnDelete(id);
+      chai.expect(result).to.not.be.equal(null);
     })
   })
   describe('com erros no Model', () => {
       beforeEach(() => {
-        sandbox.stub(Model, 'fnDelete')
-          .rejects();
+        sandbox.stub(Model, 'fnDelete').resolves(null);;
       });
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
     
     it('fnDelete', async () => {
-      const id = 1
       const result = await Service.fnDelete(id)
       chai.expect(result).to.be.equal(null);
     })

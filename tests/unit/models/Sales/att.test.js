@@ -6,21 +6,15 @@ const connection = require('../../../../helpers/connection');
 const Mocks = require('../../salesMocks');
 
 describe('Sales - Model', () => {
-  beforeEach(() => sandbox.stub(connection, 'query').resolves(Mocks.allSales))
-  afterEach(() => sandbox.restore())
+  beforeEach(() => {
+    sandbox.stub(connection, 'execute').resolves([[Mocks.resAtt]]);
+  })
+  afterEach(() => {
+    sandbox.restore();
+  })
   it('att', async () => {
     const id = 1;
-    const mock = [
-      {
-        "productId": 1,
-        "quantity": 10
-      },
-      {
-        "productId": 2,
-        "quantity": 50
-      }
-    ];
-    const result = await Sales.att(id, mock)
-    chai.expect(result).to.be.a('array')
+    const result = await Sales.att(id, Mocks.reqAtt);
+    chai.expect(result).to.be.a('object');
   })
 })

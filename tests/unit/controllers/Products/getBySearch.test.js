@@ -1,23 +1,22 @@
 const chai = require('chai');
-// const chaiAsPromised = require('chai-as-promised');
-// const sandbox = require('sandbox');
+const chaiAsPromised = require('chai-as-promised');
 const sandbox = require("sinon").createSandbox();
 
 const Controller = require('../../../../controllers/productsController');
 const Service = require('../../../../services/productsService');
 
 const Mocks = require('../../productsMocks');
-// chai.use(chaiAsPromised);
+chai.use(chaiAsPromised);
 
 describe('Products - Controllers', () => {
-  describe('testa  o res.status', () => {
+  describe('GetBySearch - testa  o res.status', () => {
     const res = {};
     const req = {};
     beforeEach(() => {
-      req.query = sinon.stub().returns({ q: "mar" });
+      req.query = sandbox.stub().returns({ q: "mar" });
 
-      res.status = sinon.stub().returns(200);
-      res.json = sinon.stub().returns(Mocks.resGetBySearch);
+      res.status = sandbox.stub().returns(res);
+      res.json = sandbox.stub().returns(res);
       
       sandbox.stub(Service, 'getBySearch').resolves(Mocks.resGetBySearch);
     });
@@ -25,13 +24,13 @@ describe('Products - Controllers', () => {
       sandbox.restore();
     })
 
-    it('é chamado com status X', async () => {
+    it('GetBySearch é chamado com status X', async () => {
       await Controller.getBySearch(req, res)
-      chai.expect(response.status.calledWith(200)).to.be.equal(true);
+      chai.expect(res.status.calledWith(200)).to.be.equal(true);
     })
-    it('é chamado o json X', async () => {
+    it('GetBySearch é chamado o json X', async () => {
       await Controller.getBySearch(req, res);
-      chai.expect(response.json.calledWith(Mocks.resGetBySearch)).to.be.equal(true);
+      chai.expect(res.json.calledWith(Mocks.resGetBySearch)).to.be.equal(true);
     });
   })
 })

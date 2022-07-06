@@ -1,38 +1,37 @@
 const chai = require('chai');
-// const chaiAsPromised = require('chai-as-promised');
-// const sandbox = require('sinon');
+const chaiAsPromised = require('chai-as-promised');
 const sandbox = require("sinon").createSandbox();
 
 const Controller = require('../../../../controllers/salesController');
 const Service = require('../../../../services/salesService');
 
 const Mocks = require('../../salesMocks');
-// chai.use(chaiAsPromised);
+chai.use(chaiAsPromised);
 
 describe('Sales - Controller', () => {
-  describe('caso service rejeite', () => {
+  describe('testando resposta', () => {
     const res = {};
     const req = {};
     beforeEach(() => {
-      req.body = sinon.stub().returns(Mocks.reqCreate);
-      req.params.id = sinon.stub().returns({ id: 1 });
+      req.body = sandbox.stub().returns(Mocks.reqCreate);
+      req.params = sandbox.stub().returns({ id: 1 });
 
-      res.status = sinon.stub().returns(200);
-      res.json = sinon.stub().returns(Mocks.resGetById);
+      res.status = sandbox.stub().returns(res);
+      res.json = sandbox.stub().returns(res);
       
-      sandbox.stub(Service, 'getById').resolves(Mocks.resCreate)
+      sandbox.stub(Service, 'create').resolves(Mocks.resCreate)
     })
     afterEach(() => {
       sandbox.restore();
     })
     
-    it('é chamado com status 200', async () => {
+    it('Create teste status 201', async () => {
       await Controller.create(req, res);
-      chai.expect(response.status.calledWith(201)).to.be.equal(true);
+      chai.expect(res.status.calledWith(201)).to.be.equal(true);
     })
-    it('é chamado com json', async () => {
+    it('Create teste json', async () => {
       await Controller.create(req, res);
-      chai.expect(response.json.calledWith(Mocks.resCreate)).to.be.equal(true);
+      chai.expect(res.json.calledWith(Mocks.resCreate)).to.be.equal(true);
     });
   })
 })

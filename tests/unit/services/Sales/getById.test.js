@@ -9,28 +9,29 @@ const Mocks = require('../../salesMocks');
 describe('Sales - Services', () => {
   describe('sem erros no Model', () => {
     beforeEach(() => {
-      sandbox.stub(Model, 'getById').resolves(Mocks.resGetById)
+      sandbox.stub(Model, 'getById').resolves(Mocks.resGetById);
     })
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
 
     it('getById', async () => {
-      const id = 1;
-      const result = await Service.getById(id)
-      chai.expect(result).to.be.a('array')
+      const id = 0;
+      const result = await Service.getById(id);
+      chai.expect(result).to.be.a('object');
     })
   })
   describe('com erros no Model', () => {
     beforeEach(() => {
-      sandbox.stub(Model, 'getById').rejects();
+      sandbox.stub(Model, 'getById').resolves(null);
     });
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
     
     it('getById', async () => {
-    const result = await Service.getById(1)
+    const id = 0;
+    const result = await Service.getById(id);
     chai.expect(result).to.be.equal(null);
     })
   })

@@ -6,13 +6,17 @@ const connection = require('../../../../helpers/connection');
 const Mocks = require('../../productsMocks');
 
 describe('Products - Model', () => {
-  beforeEach(() => sandbox.stub(connection, 'query').resolves(Mocks.allProducts))
-  afterEach(() => sandbox.restore)
+  beforeEach(() => {
+    sandbox.stub(connection, 'execute').resolves([[Mocks.allProducts]]);
+  })
+  afterEach(() => {
+    sandbox.restore();
+  })
   
   it('create', async () => {
     const name = "Davi";
-    const result = await Model.create(name)
+    const result = await Model.create(name);
     const mock = { id: result.id, name };
-   chai.expect(result).to.be.deep.equal(mock)
+    chai.expect(result).to.be.deep.equal(mock);
   })
 });

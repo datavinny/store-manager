@@ -9,28 +9,27 @@ const Mocks = require('../../salesMocks');
 describe('Sales - Services', () => {
   describe('sem erros no Model', () => {
     beforeEach(() => {
-      sandbox.stub(Model, 'create').resolves(Mocks.allSales)
+      sandbox.stub(Model, 'create').resolves(Mocks.resCreate);
     })
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
 
     it('create', async () => {
-      const result = await Service.create(Mocks.allSales)
-      chai.expect(result).to.be.a('array')
+      const result = await Service.create(Mocks.reqCreate)
+      chai.expect(result).to.be.a('object')
     })
   })
   describe('com erros no Model', () => {
       beforeEach(() => {
-        sandbox.stub(Model, 'create')
-          .rejects();
+        sandbox.stub(Model, 'create').resolves(null);
       });
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
 
     it('create', async () => {
-    const result = await Service.create(Mocks.createSales)
+    const result = await Service.create(Mocks.reqCreate)
     chai.expect(result).to.be.equal(null);
     })
   })

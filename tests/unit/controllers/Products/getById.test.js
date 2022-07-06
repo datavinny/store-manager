@@ -1,23 +1,22 @@
 const chai = require('chai');
-// const chaiAsPromised = require('chai-as-promised');
-// const sandbox = require('sandbox');
+const chaiAsPromised = require('chai-as-promised');
 const sandbox = require("sinon").createSandbox();
 
 const Controller = require('../../../../controllers/productsController');
 const Service = require('../../../../services/productsService');
 
 const Mocks = require('../../productsMocks');
-// chai.use(chaiAsPromised);
+chai.use(chaiAsPromised);
 
 describe('Products - Controllers', () => {
-  describe('testa  o res.status', () => {
+  describe('getById testa a resposta', () => {
     const res = {};
     const req = {};
     beforeEach(() => {
-      req.params.id = sinon.stub().returns({ id: 1 });
+      req.params = sandbox.stub().returns({ id: 1 });
 
-      res.status = sinon.stub().returns(200);
-      res.json = sinon.stub().returns(Mocks.resGetById);
+      res.status = sandbox.stub().returns(res);
+      res.json = sandbox.stub().returns();
       
       sandbox.stub(Service, 'getById').resolves(Mocks.resGetById);
     });
@@ -25,23 +24,23 @@ describe('Products - Controllers', () => {
       sandbox.restore()
     })
 
-    it('é chamado com status 200', async () => {
+    it('GetById é chamado com status 200', async () => {
       await Controller.getById(req, res);
-      chai.expect(response.status.calledWith(200)).to.be.equal(true);
+      chai.expect(res.status.calledWith(200)).to.be.equal(true);
     })
-    it('é chamado com json', async () => {
+    it('GetById é chamado com json', async () => {
       await Controller.getById(req, res);
-      chai.expect(response.json.calledWith(Mocks.resGetById)).to.be.equal(true);
+      chai.expect(res.json.calledWith(Mocks.resGetById)).to.be.equal(true);
     });
   })
-  describe('caso service retorne null ou undefined', () => {
+  describe('GetById caso service retorne null ou undefined', () => {
     const res = {};
     const req = {};
     beforeEach(() => {
-      req.params = sinon.stub().returns({ id: 1 });
+      req.params = sandbox.stub().returns({ id: 1 });
 
-      res.status = sinon.stub().returns(404);
-      res.json = sinon.stub().returns({ message: 'Product not found' });
+      res.status = sandbox.stub().returns(res);
+      res.json = sandbox.stub().returns(res);
       
       sandbox.stub(Service, 'getById').resolves(null);
     });
@@ -49,13 +48,13 @@ describe('Products - Controllers', () => {
       sandbox.restore()
     })
 
-    it('é chamado com status 404', async () => {
+    it('GetById é chamado com status 404', async () => {
       await Controller.getById(req, res)
-      chai.expect(response.status.calledWith(404)).to.be.equal(true);
+      chai.expect(res.status.calledWith(404)).to.be.equal(true);
     })
-    it('é chamado com json', async () => {
+    it('GetById é chamado com json', async () => {
       await Controller.getById(req, res);
-      chai.expect(response.json.calledWith({ message: 'Product not found' })).to.be.equal(true);
+      chai.expect(res.json.calledWith({ message: 'Product not found' })).to.be.equal(true);
     });
   })
 })

@@ -9,10 +9,10 @@ const Mocks = require('../../productsMocks');
 describe('Products - Service', () => {
   describe('sem erros no Model', () => {
     beforeEach(() => {
-      sandbox.stub(Model, 'create').resolves(Mocks.resCreate)
+      sandbox.stub(Model, 'create').resolves(Mocks.resCreate);
     })
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
 
     it('create', async () => {
@@ -23,10 +23,10 @@ describe('Products - Service', () => {
 })
   describe('caso haja erros no Model', () => {
     beforeEach(() => {
-      sandbox.stub(Model, 'create').rejects();
+      sandbox.stub(Model, 'create').resolves(undefined);
     });
     afterEach(() => {
-      sandbox.restore()
+      sandbox.restore();
     })
     
     it('create', async () => {
